@@ -25,7 +25,7 @@ public class CameraFollow : MonoBehaviour
 
     private void FollowTarget()
     {
-        _cameraTransform.DOMoveX(_target.position.x + _offset.x, _speed * Time.deltaTime, false);
-        _cameraTransform.DOMoveZ(_target.position.z + _offset.z, _speed * Time.deltaTime,false);
+        _cameraTransform.DOMoveX(_target.position.x + _offset.x, _speed * Time.deltaTime);
+        _cameraTransform.DOMoveZ(_target.position.z + _offset.z, _speed * Time.deltaTime);
     }
 }

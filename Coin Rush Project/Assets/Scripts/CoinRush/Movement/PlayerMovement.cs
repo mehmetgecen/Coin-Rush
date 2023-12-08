@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CoinRush.Attributes;
 using UnityEditor.Animations;
 using UnityEngine;
 using CoinRush.Control;
@@ -19,10 +20,12 @@ namespace CoinRush.Movement
     
         private Rigidbody _rigidbody;
         private Vector3 _movementVector;
+        private Health _playerHealth;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _playerHealth = GetComponent<Health>();
         }
     
         void Update()
@@ -32,10 +35,12 @@ namespace CoinRush.Movement
 
         private void Move()
         {
+            if (_playerHealth.IsDead()) return;
+            
             _movementVector = Vector3.zero;
             _movementVector.x = _joystick.Horizontal * _movementSpeed * Time.deltaTime;
             _movementVector.z = _joystick.Vertical * _movementSpeed * Time.deltaTime;
-
+            
             if (_joystick.Horizontal !=0 || _joystick.Vertical != 0)
             {
                 Vector3 direction = Vector3.RotateTowards(transform.forward, _movementVector, _rotationSpeed * Time.deltaTime, 0f);
@@ -50,8 +55,10 @@ namespace CoinRush.Movement
             }
         
             _rigidbody.MovePosition(_rigidbody.position + _movementVector);
-        
-        
+
+
+
+
         }
     
     
