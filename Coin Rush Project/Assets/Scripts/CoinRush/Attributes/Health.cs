@@ -14,6 +14,7 @@ namespace CoinRush.Attributes
         [SerializeField] private float health = 100f;
         
         private bool _isDead = false;
+        public bool _isPlayerDead = false;
         
         
         
@@ -37,6 +38,11 @@ namespace CoinRush.Attributes
             {
                 onDie.Invoke();
                 Die();
+                
+                if (gameObject.CompareTag("Player"))
+                {
+                    _isPlayerDead = true;
+                }
             }
 
             else
