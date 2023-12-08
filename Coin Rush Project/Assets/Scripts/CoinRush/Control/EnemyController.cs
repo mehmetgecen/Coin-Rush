@@ -49,17 +49,12 @@ namespace CoinRush.Control
             
             if (DistanceToPlayer() <= attackRange)
             {
-                if (Time.time - lastAttackTime >= _attackCooldown)
+                if (Time.time - lastAttackTime > _attackCooldown)
                 {
                     Throw();
-                    lastAttackTime = Time.time;
+                    
                 }
-                else
-                {
-                    _animator.ResetTrigger("Run");
-                    _animator.ResetTrigger("Throw");
-                }
-                
+
             }
             else
             {
@@ -92,6 +87,7 @@ namespace CoinRush.Control
             _navMeshAgent.SetDestination(transform.position);
             
             SwitchToThrowAnimations();
+            lastAttackTime = Time.time;
             _playerHealth.TakeDamage(projectileDamage);
             
         }
