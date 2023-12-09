@@ -7,7 +7,7 @@ namespace CoinRush.Core
     {
         [SerializeField] private float spawnTime = 5;
 
-        private static int _collectedCoinCount = 0;
+        public static int _collectedCoinCount = 0;
         
         // Start is called before the first frame update
         private void OnTriggerEnter(Collider other)
