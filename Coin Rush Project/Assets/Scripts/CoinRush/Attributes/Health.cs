@@ -1,3 +1,4 @@
+using System.Collections;
 using CoinRush.UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -51,10 +52,7 @@ namespace CoinRush.Attributes
                 onDie.Invoke();
                 Die();
                 
-                if (gameObject.CompareTag("Player"))
-                {
-                    _isPlayerDead = true;
-                }
+                
 
                 
             }
@@ -82,15 +80,19 @@ namespace CoinRush.Attributes
             
             Debug.Log("from health component: " + gameObject.name + " died.");
             
-            GetComponent<Animator>().SetTrigger("Die");
-            
             if (gameObject.CompareTag("Enemy"))
             {
                 _killCount++;
+                GetComponent<Animator>().SetTrigger("Die");
+            }
+            
+            if (gameObject.CompareTag("Player"))
+            {
+                _isPlayerDead = true;
+                GetComponent<Animator>().SetTrigger("Die");
             }
             
         }
-        
         public bool IsDamageTaken()
         {
             return health < startHealth;

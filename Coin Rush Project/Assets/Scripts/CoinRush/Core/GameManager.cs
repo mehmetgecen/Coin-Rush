@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using CoinRush.Attributes;
 using CoinRush.Saving;
 using TMPro;
@@ -51,6 +53,8 @@ namespace CoinRush.Core
 
         private void GameOver()
         {
+            StartCoroutine(RestartUIWait());
+
             playerData.SavePlayerData();
             EnableRestartUI();
             Time.timeScale = 0f;
@@ -78,6 +82,11 @@ namespace CoinRush.Core
             If not in the Unity Editor, close the application
         Application.Quit();
 #endif
+        }
+        
+        IEnumerator RestartUIWait()
+        {
+            yield return new WaitForSeconds(3f);
         }
         
         private bool PlayerIsDead()
