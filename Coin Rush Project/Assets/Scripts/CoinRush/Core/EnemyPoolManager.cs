@@ -41,7 +41,7 @@ namespace CoinRush.Core
             GameObject enemy = GetPooledEnemy();
             if (enemy != null)
             {
-                Vector3 randomPosition = new Vector3(Random.Range(-100f, 100f), 0f, Random.Range(-100f, 100f));
+                Vector3 randomPosition = new Vector3(Random.Range(-300f, 300f), 0f, Random.Range(-300f, 300f));
                 enemy.transform.position = randomPosition;
                 enemy.SetActive(true);
             }

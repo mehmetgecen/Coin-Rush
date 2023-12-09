@@ -15,10 +15,14 @@ namespace CoinRush.Control
         private Animator _animator;
 
 
+        [SerializeField] private Transform _enemyHandTransform;
+        [SerializeField] private GameObject projectilePrefab;
+        
         #region Attack Attributes
         
-        [SerializeField] private float _attackCooldown = 5f;
         [SerializeField] private float attackRange = 10f;
+        [SerializeField] private float cooldownTime = 2f;
+        public bool isOnCooldown = false;
         
         private float projectileDamage = 10f;
         private float lastAttackTime;
@@ -44,15 +48,15 @@ namespace CoinRush.Control
         {
             _navMeshAgent.enabled = !_health.IsDead();
             
-            // Check if the player is within the attack range
             if(_health.IsDead()) return;
+            
+            // Check if the player is within the attack range
             
             if (DistanceToPlayer() <= attackRange)
             {
-                if (Time.time - lastAttackTime > _attackCooldown)
+                if (_player != null && !_player.GetComponent<Health>().IsDead() && !isOnCooldown)
                 {
                     Throw();
-                    
                 }
 
             }
@@ -86,10 +90,34 @@ namespace CoinRush.Control
             // Stop moving
             _navMeshAgent.SetDestination(transform.position);
             
-            SwitchToThrowAnimations();
-            lastAttackTime = Time.time;
-            _playerHealth.TakeDamage(projectileDamage);
+            SwitchToThrowAnimations(); ;
+            ThrowProjectile(_player);
             
+            isOnCooldown = true;
+            Invoke("ResetCooldown", cooldownTime);
+            
+        }
+        
+        void ThrowProjectile(GameObject enemy)
+        {
+            GameObject projectileObject = Instantiate(projectilePrefab, _enemyHandTransform.position, transform.rotation);
+            
+            EnemyProjectile homingProjectile = projectileObject.GetComponent<EnemyProjectile>();
+            
+            homingProjectile.SetTarget(enemy);
+            
+            Rigidbody projectileRb = projectileObject.GetComponent<Rigidbody>();
+            
+            float throwForce =2f;
+            projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            
+            isOnCooldown = true;
+            Invoke("ResetCooldown", cooldownTime);
+        }
+        
+        void ResetCooldown()
+        {
+            isOnCooldown = false;
         }
 
         private void SwitchToThrowAnimations()

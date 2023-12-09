@@ -4,21 +4,23 @@ using UnityEngine;
 
 namespace CoinRush.Combat
 {
-    public class HomingProjectile : MonoBehaviour
+    public class EnemyProjectile : MonoBehaviour
     {
+        [SerializeField] private float _projectileDamage;
+    
         public float speed = .1f;
         public float rotationSpeed = 200f;
         
         private float _destroyTime = 5f;
         private Transform _target;
-
+    
         // Set the target enemy for the projectile
         public void SetTarget(GameObject newTarget)
         {
             _target = newTarget.transform;
         }
-
-        void Update()
+    
+        void Start()
         {
             if (_target == null)
             {
@@ -43,16 +45,19 @@ namespace CoinRush.Combat
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
-        // You may want to add OnCollisionEnter to handle what happens when the projectile hits the target
+        private void Update()
+        {
+            Destroy(gameObject, _destroyTime);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Enemy")) // Adjust the tag based on your enemy GameObjects
+            if (other.CompareTag("Player")) 
             {
-                other.gameObject.GetComponent<Health>().Die();
+                other.gameObject.GetComponent<Health>().TakeDamage(_projectileDamage);
                 
-                Debug.Log("enemy died");
-                
-                // Handle collision with the target (e.g., deal damage)
+                Debug.Log("Player hit");
+            
                 Destroy(gameObject);
             }
         }

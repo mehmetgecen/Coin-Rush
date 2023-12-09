@@ -89,8 +89,6 @@ namespace CoinRush.Attributes
                 _killCount++;
             }
             
-            
-
         }
         
         public bool IsDamageTaken()

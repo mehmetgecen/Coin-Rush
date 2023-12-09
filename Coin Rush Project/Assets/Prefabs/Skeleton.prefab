@@ -1362,8 +1362,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9b2909fc81f3043907dfedc58f23f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackCooldown: 5
-  attackRange: 10
+  _enemyHandTransform: {fileID: 268299717981691500}
+  projectilePrefab: {fileID: 5706557498561852666, guid: f4a5132cc4bf22b49a2f06d1f51a313e,
+    type: 3}
+  attackRange: 20
+  cooldownTime: 3
+  isOnCooldown: 0
 --- !u!195 &8796929177494767595
 NavMeshAgent:
   m_ObjectHideFlags: 0

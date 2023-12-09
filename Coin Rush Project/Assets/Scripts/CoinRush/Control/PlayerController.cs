@@ -53,19 +53,14 @@ namespace CoinRush.Control
         
         void ThrowProjectile(GameObject enemy)
         {
-            // Instantiate the projectile
             GameObject projectileObject = Instantiate(projectilePrefab, _handTransform.position, transform.rotation);
             
             HomingProjectile homingProjectile = projectileObject.GetComponent<HomingProjectile>();
-
-            // Set the target enemy for the projectile
+            
             homingProjectile.SetTarget(enemy);
             
-
-            // Get the Rigidbody component of the projectile
             Rigidbody projectileRb = projectileObject.GetComponent<Rigidbody>();
-
-            // Apply force to the projectile
+            
             float throwForce =2f;
             projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
             
