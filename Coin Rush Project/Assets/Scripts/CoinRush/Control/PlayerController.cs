@@ -7,12 +7,18 @@ namespace CoinRush.Control
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float detectionRadius = 5f;
-        //[SerializeField] private Projectile projectile = null;
+        [SerializeField] private float cooldownTime = 2f;
+        [SerializeField] private Transform _handTransform;
+        [SerializeField] private GameObject projectilePrefab;
+        
         public LayerMask enemyLayer;
         public float projectileSpeed = 10f;
         
-        [SerializeField] private Transform _handTransform;
-        [SerializeField] private GameObject projectilePrefab;
+        public bool isOnCooldown = false;
+        
+        
+        
+       
 
         private void Update()
         {
@@ -22,7 +28,7 @@ namespace CoinRush.Control
             if (hitColliders.Length > 0)
             {
                 GameObject nearestEnemy = FindNearestEnemy(playerPosition, hitColliders);
-                if (nearestEnemy != null && !nearestEnemy.GetComponent<Health>().IsDead())
+                if (nearestEnemy != null && !nearestEnemy.GetComponent<Health>().IsDead() && !isOnCooldown)
                 {
                     ThrowProjectile(nearestEnemy);
                 }
@@ -51,7 +57,7 @@ namespace CoinRush.Control
         void ThrowProjectile(GameObject enemy)
         {
             // Instantiate the projectile
-            GameObject projectileObject = Instantiate(projectilePrefab, transform.position, transform.rotation);
+            GameObject projectileObject = Instantiate(projectilePrefab, _handTransform.position, transform.rotation);
             
             HomingProjectile homingProjectile = projectileObject.GetComponent<HomingProjectile>();
 
@@ -65,6 +71,14 @@ namespace CoinRush.Control
             // Apply force to the projectile
             float throwForce =2f;
             projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            
+            isOnCooldown = true;
+            Invoke("ResetCooldown", cooldownTime);
+        }
+        
+        void ResetCooldown()
+        {
+            isOnCooldown = false;
         }
         
         private void OnDrawGizmos()
