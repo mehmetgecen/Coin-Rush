@@ -6,7 +6,7 @@ namespace CoinRush.Combat
 {
     public class HomingProjectile : MonoBehaviour
     {
-        public float speed = 1f;
+        public float speed = .1f;
         public float rotationSpeed = 200f;
 
         private Transform target;

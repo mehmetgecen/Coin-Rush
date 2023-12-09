@@ -22,9 +22,9 @@ namespace CoinRush.Control
             if (hitColliders.Length > 0)
             {
                 GameObject nearestEnemy = FindNearestEnemy(playerPosition, hitColliders);
-                if (nearestEnemy != null)
+                if (nearestEnemy != null && !nearestEnemy.GetComponent<Health>().IsDead())
                 {
-                   ThrowProjectile(nearestEnemy);
+                    ThrowProjectile(nearestEnemy);
                 }
             }
         }
