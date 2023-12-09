@@ -1,3 +1,4 @@
+using CoinRush.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,11 +11,16 @@ namespace CoinRush.Attributes
         [SerializeField] private UnityEvent<float> damageTaken;
         [SerializeField] private UnityEvent onDie;
         
-        [SerializeField] private float startHealth;
-        [SerializeField] private float health = 100f;
+        [SerializeField] private float startHealth = 100f;
+        [SerializeField] private float health;
+        //[SerializeField] private bool _hasHealthBar;
+
+        public HealthBarDisplay _healthBar;
         
         private bool _isDead = false;
         public bool _isPlayerDead = false;
+        
+        public static int _killCount = 0;
         
         
         
@@ -25,7 +31,13 @@ namespace CoinRush.Attributes
                 //health = PlayerPrefs.GetFloat("Health",startHealth);    
             }*/
             
-            //health = startHealth;
+            health = startHealth;
+
+            if (_healthBar!=null)
+            {
+                _healthBar.SetMaxHealth(startHealth);
+            }
+            
         }
         
         public void TakeDamage(float damage)
@@ -43,21 +55,36 @@ namespace CoinRush.Attributes
                 {
                     _isPlayerDead = true;
                 }
+
+                
             }
 
             else
             {
                 damageTaken.Invoke(damage);
             }
+
+            if (_healthBar!=null)
+            {
+                _healthBar.SetHealth(health);
+            }
+            
         }
         
-        private void Die()
+        public void Die()
         {
             if (_isDead) return;
             
             _isDead = true;
             
+            Debug.Log("from health component: " + gameObject.name + " died.");
+            
             GetComponent<Animator>().SetTrigger("Die");
+            
+            if (gameObject.CompareTag("Enemy"))
+            {
+                _killCount++;
+            }
 
         }
         

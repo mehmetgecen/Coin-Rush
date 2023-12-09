@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using CoinRush.Attributes;
+using TMPro;
 using UnityEngine;
 
-public class KillCountDisplayUI : MonoBehaviour
+namespace CoinRush.UI
 {
-    // Start is called before the first frame update
-    void Start()
+    public class KillCountDisplayUI : MonoBehaviour
     {
+        private Health _killCounter;
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void Update()
+        {
+            GetComponent<TextMeshProUGUI>().text = Health._killCount.ToString();
+        }
     }
 }
