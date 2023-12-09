@@ -77,6 +77,9 @@ namespace CoinRush.Attributes
             
             _isDead = true;
             
+            gameObject.GetComponent<CapsuleCollider>().enabled = false;
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            
             Debug.Log("from health component: " + gameObject.name + " died.");
             
             GetComponent<Animator>().SetTrigger("Die");
@@ -85,6 +88,8 @@ namespace CoinRush.Attributes
             {
                 _killCount++;
             }
+            
+            
 
         }
         

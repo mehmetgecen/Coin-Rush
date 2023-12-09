@@ -1,3 +1,4 @@
+using System;
 using CoinRush.Attributes;
 using CoinRush.Combat;
 using UnityEngine;
@@ -16,10 +17,6 @@ namespace CoinRush.Control
         
         public bool isOnCooldown = false;
         
-        
-        
-       
-
         private void Update()
         {
             Vector3 playerPosition = transform.position;
@@ -75,7 +72,16 @@ namespace CoinRush.Control
             isOnCooldown = true;
             Invoke("ResetCooldown", cooldownTime);
         }
-        
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                gameObject.GetComponent<Health>().Die();
+                Debug.Log("Player died instantly");
+            }
+        }
+
         void ResetCooldown()
         {
             isOnCooldown = false;
