@@ -47,14 +47,13 @@ namespace CoinRush.Core
         {
             if (PlayerIsDead())
             {
+                StartCoroutine(RestartUIWait());
                 GameOver();
             }
         }
 
         private void GameOver()
         {
-            StartCoroutine(RestartUIWait());
-
             playerData.SavePlayerData();
             EnableRestartUI();
             Time.timeScale = 0f;
@@ -68,22 +67,7 @@ namespace CoinRush.Core
             
             DisableRestartUI();
         }
-        
-        public void ExitGame()
-        {
-            playerData.SavePlayerData();
-            
-            Debug.Log("Saving data and exiting the game...");
 
-#if UNITY_EDITOR
-            // If running in the Unity Editor, stop playing the game
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            If not in the Unity Editor, close the application
-        Application.Quit();
-#endif
-        }
-        
         IEnumerator RestartUIWait()
         {
             yield return new WaitForSeconds(3f);

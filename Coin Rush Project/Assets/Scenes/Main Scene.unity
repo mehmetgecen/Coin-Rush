@@ -257,6 +257,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82416079}
   m_CullTransparentMesh: 1
+--- !u!1 &178188580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178188581}
+  m_Layer: 0
+  m_Name: Detection Zone Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &178188581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178188580}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1900456293}
+  m_Father: {fileID: 6920705705962603962}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &270725615
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1155,7 +1187,7 @@ RectTransform:
   m_GameObject: {fileID: 904823038}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 3, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1900456293}
@@ -1866,13 +1898,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900456292}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 904823039}
-  m_Father: {fileID: 6920705705962603962}
+  m_Father: {fileID: 178188581}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3498,8 +3530,8 @@ Transform:
   - {fileID: 3196179012475282734}
   - {fileID: 6020085606455812237}
   - {fileID: 8626471633504766309}
-  - {fileID: 1900456293}
   - {fileID: 1580227601}
+  - {fileID: 178188581}
   m_Father: {fileID: 586085815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6978532926305587926
@@ -3796,11 +3828,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f29bb5db8989f41889e480d23462c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 7.5
+  detectionRadius: 10
   cooldownTime: 2
   _handTransform: {fileID: 1631615878020146423}
   projectilePrefab: {fileID: 3058223192660567961, guid: f018830056082ed4299f412597675841,
     type: 3}
+  _detectionZone: {fileID: 178188580}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64

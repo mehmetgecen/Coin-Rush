@@ -90,7 +90,10 @@ namespace CoinRush.Attributes
             {
                 _isPlayerDead = true;
                 GetComponent<Animator>().SetTrigger("Die");
+                
             }
+            
+            
             
         }
         public bool IsDamageTaken()

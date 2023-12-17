@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoinRush.Attributes;
-using UnityEditor.Animations;
 using UnityEngine;
 using CoinRush.Control;
 using AnimatorController = CoinRush.Control.AnimatorController;

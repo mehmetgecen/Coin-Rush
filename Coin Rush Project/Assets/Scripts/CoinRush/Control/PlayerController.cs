@@ -1,6 +1,7 @@
 using System;
 using CoinRush.Attributes;
 using CoinRush.Combat;
+using DG.Tweening;
 using UnityEngine;
 
 namespace CoinRush.Control
@@ -11,12 +12,26 @@ namespace CoinRush.Control
         [SerializeField] private float cooldownTime = 2f;
         [SerializeField] private Transform _handTransform;
         [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private GameObject _detectionZone;
         
         public LayerMask enemyLayer;
         public float projectileSpeed = 10f;
-        
         public bool isOnCooldown = false;
         
+        private float scaleFactor;
+        private Vector3 newScale;
+
+        // TODO dynamic adjustable detection zone size
+        // detection zone size is set to 1/5 of detection radius
+        
+        private void Start()
+        {
+            scaleFactor = detectionRadius / 5;
+            newScale = Vector3.one * scaleFactor;
+            _detectionZone.transform.localScale = newScale;
+            
+        }
+
         private void Update()
         {
             Vector3 playerPosition = transform.position;
