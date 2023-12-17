@@ -43,7 +43,7 @@ namespace CoinRush.Combat
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
-        // You may want to add OnCollisionEnter to handle what happens when the projectile hits the target
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Enemy")) // Adjust the tag based on your enemy GameObjects
