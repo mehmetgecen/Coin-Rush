@@ -6,46 +6,30 @@ using UnityEngine.AI;
 
 namespace CoinRush.Control
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class EnemyController : MonoBehaviour
     {
         private GameObject _player;
         private NavMeshAgent _navMeshAgent;
         private Animator _animator;
 
+        private Fighter _fighter;
+        
         private Health _health;
         private Health _playerHealth;
         private Health _target;
-
-        
-        #region Attack Attributes
-        
-        [SerializeField] private float attackRange = 10f;
-        [SerializeField] private float cooldownTime = 2f;
-        
-        [SerializeField] private Projectile projectile = null;
-        [SerializeField] private GameObject _rightHand;
-        [SerializeField] private GameObject projectilePrefab;
-        
-        public bool isOnCooldown = false;
-        
-        private float lastAttackTime;
-
-        #endregion
         
         private void Awake()
         {
             _player = GameObject.FindWithTag("Player");
+            _playerHealth = _player.GetComponent<Health>();
+            
+            _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _animator = GetComponent<Animator>();
         }
-
-        private void Start()
-        {
-            _playerHealth = _player.GetComponent<Health>();
-        }
-
-
+        
         void Update()
         {
             _navMeshAgent.enabled = !_health.IsDead();
@@ -54,13 +38,14 @@ namespace CoinRush.Control
             
             // Check if the player is within the attack range
             
-            if (DistanceToPlayer() <= attackRange)
+            if (DistanceToPlayer() <= _fighter.attackRange)
             {
-                if (_player == null || _player.GetComponent<Health>().IsDead() || isOnCooldown) return;
+                if (_player == null || _playerHealth.IsDead() || _fighter.isOnCooldown) return;
+                
+                _fighter.FireProjectile(_player);
                 SwitchToThrowAnimations();
-                Throw();
                     
-                Debug.Log("throw called from update.");
+                Debug.Log("Throw called from Enemy Update.");
 
             }
             else
@@ -69,13 +54,13 @@ namespace CoinRush.Control
             }
             
         }
-        
-        void MoveTowardsPlayer()
+
+        private void MoveTowardsPlayer()
         {
             // Calculate the direction to the player
             var position = _player.transform.position;
             
-            Vector3 direction = (position - transform.position).normalized;
+            //Vector3 direction = (position - transform.position).normalized;
 
             // Move towards the player
             _navMeshAgent.SetDestination(position);
@@ -84,7 +69,7 @@ namespace CoinRush.Control
         }
         
         
-        private void Throw()
+        /*private void Throw()
         {
             if (_target == null) return;
             
@@ -101,43 +86,9 @@ namespace CoinRush.Control
             
             isOnCooldown = true;
             Invoke("ResetCooldown", cooldownTime);
-            
-            
-            
-        }
-
-        public void LaunchProjectile(Transform rightHand,Health target)
-        {
-            if (projectile!=null)
-            {
-                Projectile projectileInstance = Instantiate(projectile,_rightHand.transform.position,Quaternion.identity);
-                projectileInstance.SetTarget(target);
-                
-            }
-            
-        }
+             
+        }*/
         
-        void ThrowProjectile(GameObject enemy)
-        {
-            GameObject projectileObject = Instantiate(projectilePrefab, _rightHand.transform.position, transform.rotation);
-            
-            projectile = projectileObject.GetComponent<Projectile>();
-            
-            //homingProjectile.SetTarget(enemy);
-            
-            Rigidbody projectileRb = projectileObject.GetComponent<Rigidbody>();
-            
-            float throwForce =2f;
-            projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
-            
-            
-        }
-        
-        void ResetCooldown()
-        {
-            isOnCooldown = false;
-        }
-
         private void SwitchToThrowAnimations()
         {
             _animator.ResetTrigger("Run");
@@ -158,7 +109,7 @@ namespace CoinRush.Control
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.DrawWireSphere(transform.position, _fighter.attackRange);
         }
     }
 }

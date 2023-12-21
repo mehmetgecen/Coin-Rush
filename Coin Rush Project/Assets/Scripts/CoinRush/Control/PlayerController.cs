@@ -6,17 +6,18 @@ using UnityEngine;
 
 namespace CoinRush.Control
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
+        public LayerMask enemyLayer;
+        
         [SerializeField] private float detectionRadius = 5f;
         [SerializeField] private GameObject _detectionZone;
         
         private Fighter _fighter;
         private Projectile _projectile;
         
-        public LayerMask enemyLayer;
         private Vector3 newScale;
-        
         private float scaleFactor;
         
         private void Awake()

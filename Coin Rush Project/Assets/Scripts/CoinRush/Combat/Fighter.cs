@@ -8,7 +8,7 @@ namespace CoinRush.Combat
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private GameObject rightHand;
         [SerializeField] private float attackCooldown = 2f;
-        [SerializeField] private float attackRange = 10f;
+        [SerializeField] public float attackRange = 10f;
 
         public bool isOnCooldown = false;
         
@@ -47,7 +47,7 @@ namespace CoinRush.Combat
             projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
             
             isOnCooldown = true;
-            Invoke("ResetCooldown", attackCooldown);
+            Invoke(nameof(ResetCooldown), attackCooldown);
         }
         
         // find the nearest enemy
