@@ -5,14 +5,18 @@ namespace CoinRush.Combat
 {
     public class Fighter : MonoBehaviour
     {
+        [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private GameObject rightHand;
         [SerializeField] private float attackCooldown = 2f;
         [SerializeField] private float attackRange = 10f;
-        [SerializeField] private float _weaponDamage;
-        
-        private float _timeSinceLastAttack = Mathf.Infinity;
-        private Health _target;
-        
 
+        public bool isOnCooldown = false;
+        
+        private Health _target;
+        private Projectile _projectile;
+        private float _timeSinceLastAttack = Mathf.Infinity;
+        
+        
         private void Update()
         {
             _timeSinceLastAttack += Time.deltaTime;
@@ -20,61 +24,34 @@ namespace CoinRush.Combat
             if (_target == null) return;
             if (_target.IsDead()) return;
             
-            if (_target!=null)
+            if (CanAttack(_target.gameObject))
             {
-                if (IsInRange())
-                {
-                    AttackBehaviour();
+                AttackBehaviour();
+                FireProjectile(_target.gameObject);
                     
-                    Debug.Log("Fighter AttackBehaviour Called.");
-                }
-                
-            }
-        }
-        
-        public Health GetTarget()
-        {
-            if (gameObject.CompareTag("Enemy"))
-            {
-                _target = GameObject.FindWithTag("Player").GetComponent<Health>();
-            }
-
-            if (gameObject.CompareTag("Player"))
-            {
-                FindNearestEnemy();
+                Debug.Log("Fighter Attack Behaviour Called.");
             }
             
-            return _target;
+        }
+        public void FireProjectile(GameObject target)
+        {
+            GameObject projectileObject = Instantiate(projectilePrefab, rightHand.transform.position, transform.rotation);
+            
+            _projectile = projectileObject.GetComponent<Projectile>();
+            
+            _projectile.SetTarget(target.GetComponent<Health>());
+            
+            Rigidbody projectileRb = projectileObject.GetComponent<Rigidbody>();
+            
+            float throwForce =2f;
+            projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            
+            isOnCooldown = true;
+            Invoke("ResetCooldown", attackCooldown);
         }
         
         // find the nearest enemy
-        public void FindNearestEnemy()
-        {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            GameObject nearestEnemy = null;
-            float shortestDistance = Mathf.Infinity;
-            Vector3 position = transform.position;
-            
-            foreach (GameObject enemy in enemies)
-            {
-                Vector3 direction = enemy.transform.position - position;
-                float distance = direction.sqrMagnitude;
-                
-                if (distance < shortestDistance)
-                {
-                    nearestEnemy = enemy;
-                    shortestDistance = distance;
-                }
-            }
-            
-            if (nearestEnemy != null && shortestDistance <= attackRange)
-            {
-                _target = nearestEnemy.GetComponent<Health>();
-            }
-        }
-        
-        
-        
+
         public bool CanAttack(GameObject combatTarget)
         {
             if (combatTarget == null) return false;
@@ -82,14 +59,8 @@ namespace CoinRush.Combat
             
             return combatTargetHealth != null && !combatTargetHealth.IsDead();
         }
-        
-        public void Attack(GameObject combatTarget)
-        {
-            _target = combatTarget.GetComponent<Health>();
-            _target.TakeDamage(_weaponDamage);
-        }
-        
-        public void AttackBehaviour()
+
+        private void AttackBehaviour()
         {
             transform.LookAt(_target.transform);
             
@@ -101,6 +72,13 @@ namespace CoinRush.Combat
             }
         }
         
+        void ResetCooldown()
+        {
+            isOnCooldown = false;
+        }
+        
+        
+        //TODO animation triggers must re-edited.
         private void TriggerAttackAnimations()
         {
             if (gameObject.CompareTag("Enemy"))
@@ -118,11 +96,6 @@ namespace CoinRush.Combat
             GetComponent<Animator>().SetTrigger("CancelAttack");
         }
         
-        private bool IsInRange()
-        {
-            _target = GetTarget();
-            
-            return Vector3.Distance(_target.transform.position, transform.position) < attackRange;
-        }
+        
     }
 }

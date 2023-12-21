@@ -9,29 +9,26 @@ namespace CoinRush.Control
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float detectionRadius = 5f;
-        [SerializeField] private float cooldownTime = 2f;
-        [SerializeField] private Transform _handTransform;
-        [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private GameObject _detectionZone;
         
+        private Fighter _fighter;
+        private Projectile _projectile;
+        
         public LayerMask enemyLayer;
-        public float projectileSpeed = 10f;
-        public bool isOnCooldown = false;
+        private Vector3 newScale;
         
         private float scaleFactor;
-        private Vector3 newScale;
-
-        // TODO dynamic adjustable detection zone size
-        // detection zone size is set to 1/5 of detection radius
         
-        private void Start()
+        private void Awake()
         {
-            scaleFactor = detectionRadius / 5;
-            newScale = Vector3.one * scaleFactor;
-            _detectionZone.transform.localScale = newScale;
-            
+            _fighter = GetComponent<Fighter>();
         }
 
+        private void Start()
+        {
+            AdjustDetectionZone();
+        }
+        
         private void Update()
         {
             Vector3 playerPosition = transform.position;
@@ -40,14 +37,14 @@ namespace CoinRush.Control
             if (hitColliders.Length > 0)
             {
                 GameObject nearestEnemy = FindNearestEnemy(playerPosition, hitColliders);
-                if (nearestEnemy != null && !nearestEnemy.GetComponent<Health>().IsDead() && !isOnCooldown)
+                if (_fighter.CanAttack(nearestEnemy) && !_fighter.isOnCooldown)
                 {
-                    ThrowProjectile(nearestEnemy);
+                    _fighter.FireProjectile(nearestEnemy);
                 }
             }
         }
 
-        public GameObject FindNearestEnemy(Vector3 playerPosition, Collider[] enemies)
+        private GameObject FindNearestEnemy(Vector3 playerPosition, Collider[] enemies)
         {
             GameObject nearestEnemy = null;
             float nearestDistance = float.MaxValue;
@@ -66,23 +63,6 @@ namespace CoinRush.Control
             return nearestEnemy;
         }
         
-        void ThrowProjectile(GameObject enemy)
-        {
-            GameObject projectileObject = Instantiate(projectilePrefab, _handTransform.position, transform.rotation);
-            
-            HomingProjectile homingProjectile = projectileObject.GetComponent<HomingProjectile>();
-            
-            homingProjectile.SetTarget(enemy);
-            
-            Rigidbody projectileRb = projectileObject.GetComponent<Rigidbody>();
-            
-            float throwForce =2f;
-            projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
-            
-            isOnCooldown = true;
-            Invoke("ResetCooldown", cooldownTime);
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Enemy"))
@@ -91,12 +71,14 @@ namespace CoinRush.Control
                 Debug.Log("Player died instantly");
             }
         }
-
-        void ResetCooldown()
-        {
-            isOnCooldown = false;
-        }
         
+        private void AdjustDetectionZone()
+        {
+            scaleFactor = detectionRadius / 5;
+            newScale = Vector3.one * scaleFactor;
+            _detectionZone.transform.localScale = newScale;
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;

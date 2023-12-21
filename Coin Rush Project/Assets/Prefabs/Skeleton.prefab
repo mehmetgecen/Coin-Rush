@@ -1240,6 +1240,7 @@ GameObject:
   - component: {fileID: 7219553688752934299}
   - component: {fileID: 3664674297766733452}
   - component: {fileID: 5237392712186850463}
+  - component: {fileID: 6426678337953474868}
   - component: {fileID: 5050370872320487669}
   - component: {fileID: 8796929177494767595}
   - component: {fileID: 5535870456084484976}
@@ -1350,6 +1351,24 @@ MonoBehaviour:
   health: 100
   _healthBar: {fileID: 0}
   _isPlayerDead: 0
+--- !u!114 &6426678337953474868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816586076779544840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19da51ff8244a344eb39cefc74683613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 683305163756408344, guid: 9bd0a832aad53a04f8f4da3f6f62255d,
+    type: 3}
+  rightHand: {fileID: 2611870814143158224}
+  attackCooldown: 2
+  attackRange: 10
+  isOnCooldown: 0
 --- !u!114 &5050370872320487669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1362,11 +1381,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db9b2909fc81f3043907dfedc58f23f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyHandTransform: {fileID: 268299717981691500}
-  projectilePrefab: {fileID: 5706557498561852666, guid: f4a5132cc4bf22b49a2f06d1f51a313e,
-    type: 3}
   attackRange: 20
   cooldownTime: 3
+  projectile: {fileID: 2301983721945825495, guid: 9bd0a832aad53a04f8f4da3f6f62255d,
+    type: 3}
+  _rightHand: {fileID: 2611870814143158224}
+  projectilePrefab: {fileID: 683305163756408344, guid: 9bd0a832aad53a04f8f4da3f6f62255d,
+    type: 3}
   isOnCooldown: 0
 --- !u!195 &8796929177494767595
 NavMeshAgent:

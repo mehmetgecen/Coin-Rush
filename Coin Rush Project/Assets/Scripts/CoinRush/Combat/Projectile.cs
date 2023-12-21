@@ -12,11 +12,9 @@ namespace CoinRush.Combat
         [SerializeField] private bool isHoming;
         [SerializeField] private GameObject hitEffect = null;
         [SerializeField] private float maxLifetime = 5f;
-        
-        float _projectileDamage;
+        [SerializeField] private float _projectileDamage;
         Health _target = null;
-        GameObject instigator = null;
-    
+
         private void Start()
         {
             transform.LookAt(GetAimPosition());    
@@ -29,15 +27,14 @@ namespace CoinRush.Combat
                 transform.LookAt(GetAimPosition()); 
             }
             
+            //TODO tween projectile movement
+            
             transform.Translate(Vector3.forward * projectileSpeed * Time.deltaTime);
         }
     
-        public void SetTarget(Health target,GameObject instigator,float damage)
+        public void SetTarget(Health target)
         {
             _target = target;
-            _projectileDamage = damage;
-            this.instigator = instigator;
-            
             Destroy(gameObject,maxLifetime);
         }
         
@@ -51,6 +48,7 @@ namespace CoinRush.Combat
             }
             return _target.gameObject.transform.position + (Vector3.up * targetCapsule.height / 2);
         }
+        
     
         private void OnTriggerEnter(Collider other)
         {

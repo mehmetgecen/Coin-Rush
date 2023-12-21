@@ -3686,6 +3686,7 @@ GameObject:
   - component: {fileID: 7728345738091683587}
   - component: {fileID: 7728345738091683589}
   - component: {fileID: 7728345738091683591}
+  - component: {fileID: 7728345738091683592}
   - component: {fileID: 7728345738091683588}
   - component: {fileID: 7728345738091683590}
   m_Layer: 0
@@ -3829,15 +3830,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionRadius: 10
-  cooldownTime: 2
-  _handTransform: {fileID: 1631615878020146423}
-  projectilePrefab: {fileID: 3058223192660567961, guid: f018830056082ed4299f412597675841,
-    type: 3}
   _detectionZone: {fileID: 178188580}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
-  projectileSpeed: 10
+--- !u!114 &7728345738091683592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7728345738091683584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19da51ff8244a344eb39cefc74683613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 7996909782386878284, guid: d2dc05f6a2d37d94a84e9d6def353d7d,
+    type: 3}
+  rightHand: {fileID: 7728345738091683584}
+  attackCooldown: 2
+  attackRange: 10
   isOnCooldown: 0
 --- !u!4 &7771227165695526607
 Transform:
