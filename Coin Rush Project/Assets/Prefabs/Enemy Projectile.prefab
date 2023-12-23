@@ -54,7 +54,7 @@ MonoBehaviour:
   isHoming: 0
   hitEffect: {fileID: 0}
   maxLifetime: 20
-  _projectileDamage: 0
+  _projectileDamage: 10
 --- !u!135 &4863246033472159675
 SphereCollider:
   m_ObjectHideFlags: 0

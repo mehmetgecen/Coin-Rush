@@ -84,6 +84,7 @@ namespace CoinRush.Attributes
             {
                 _killCount++;
                 GetComponent<Animator>().SetTrigger("Die");
+                StartCoroutine(DeactivateDeadBody());
             }
             
             if (gameObject.CompareTag("Player"))
@@ -93,9 +94,14 @@ namespace CoinRush.Attributes
                 
             }
             
-            
-            
         }
+        
+        private IEnumerator DeactivateDeadBody()
+        {
+            yield return new WaitForSeconds(2f);
+            gameObject.SetActive(false);
+        }
+        
         public bool IsDamageTaken()
         {
             return health < startHealth;

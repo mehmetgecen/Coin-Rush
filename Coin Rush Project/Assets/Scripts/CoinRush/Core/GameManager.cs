@@ -14,6 +14,7 @@ namespace CoinRush.Core
         public GameObject player;
         public Button restartButton;
         public TextMeshProUGUI gameOverText;
+        public GameObject healthBar;
         
         private Health _playerHealth;
 
@@ -48,7 +49,6 @@ namespace CoinRush.Core
             if (PlayerIsDead())
             {
                 StartCoroutine(RestartUIWait());
-                GameOver();
             }
         }
 
@@ -68,9 +68,17 @@ namespace CoinRush.Core
             DisableRestartUI();
         }
 
-        IEnumerator RestartUIWait()
+        private IEnumerator RestartUIWait()
         {
+            DisableHealthBar();
             yield return new WaitForSeconds(3f);
+            GameOver();
+            
+        }
+        
+        private void DisableHealthBar()
+        {
+            healthBar.SetActive(false);
         }
         
         private bool PlayerIsDead()

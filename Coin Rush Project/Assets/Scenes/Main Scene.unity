@@ -2022,6 +2022,7 @@ MonoBehaviour:
   player: {fileID: 7728345738091683584}
   restartButton: {fileID: 2146979202}
   gameOverText: {fileID: 82416081}
+  healthBar: {fileID: 1580227597}
 --- !u!1 &2146979200
 GameObject:
   m_ObjectHideFlags: 0
@@ -3829,11 +3830,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f29bb5db8989f41889e480d23462c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 10
-  _detectionZone: {fileID: 178188580}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  detectionRadius: 10
+  _detectionZone: {fileID: 178188580}
 --- !u!114 &7728345738091683592
 MonoBehaviour:
   m_ObjectHideFlags: 0

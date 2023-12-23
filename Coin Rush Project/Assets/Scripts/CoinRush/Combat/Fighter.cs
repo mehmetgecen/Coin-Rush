@@ -16,7 +16,7 @@ namespace CoinRush.Combat
         private Projectile _projectile;
         private float _timeSinceLastAttack = Mathf.Infinity;
         
-        
+        /*
         private void Update()
         {
             _timeSinceLastAttack += Time.deltaTime;
@@ -32,7 +32,7 @@ namespace CoinRush.Combat
                 Debug.Log("Fighter Attack Behaviour Called.");
             }
             
-        }
+        }*/
         public void FireProjectile(GameObject target)
         {
             GameObject projectileObject = Instantiate(projectilePrefab, rightHand.transform.position, transform.rotation);
