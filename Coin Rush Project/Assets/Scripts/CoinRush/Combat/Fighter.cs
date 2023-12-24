@@ -36,18 +36,23 @@ namespace CoinRush.Combat
         public void FireProjectile(GameObject target)
         {
             GameObject projectileObject = Instantiate(projectilePrefab, rightHand.transform.position, transform.rotation);
-            
             _projectile = projectileObject.GetComponent<Projectile>();
+
+            if (gameObject.CompareTag("Enemy"))
+            {
+                target = GameObject.FindWithTag("Player");
+            }
             
             _projectile.SetTarget(target.GetComponent<Health>());
             
+            /*
             Rigidbody projectileRb = projectileObject.GetComponent<Rigidbody>();
-            
             float throwForce =2f;
-            projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            projectileRb.AddForce(transform.forward * throwForce, ForceMode.Impulse);*/
             
             isOnCooldown = true;
             Invoke(nameof(ResetCooldown), attackCooldown);
+            
         }
         
         // find the nearest enemy

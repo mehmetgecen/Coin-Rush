@@ -42,7 +42,7 @@ namespace CoinRush.Control
             {
                 if (_player == null || _playerHealth.IsDead() || _fighter.isOnCooldown) return;
                 
-                _fighter.FireProjectile(_player);
+                //_fighter.FireProjectile(_player);
                 SwitchToThrowAnimations();
                     
                 Debug.Log("Throw called from Enemy Update.");

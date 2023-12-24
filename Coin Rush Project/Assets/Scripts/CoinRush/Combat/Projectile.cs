@@ -12,7 +12,7 @@ namespace CoinRush.Combat
         [SerializeField] private bool isHoming;
         [SerializeField] private GameObject hitEffect = null;
         [SerializeField] private float maxLifetime = 5f;
-        [SerializeField] private float _projectileDamage;
+        [SerializeField] private float projectileDamage;
         Health _target = null;
 
         private void Start()
@@ -55,7 +55,7 @@ namespace CoinRush.Combat
             if (other.GetComponent<Health>() != _target) return;
             if(_target.IsDead()) return;
             
-            _target.TakeDamage(_projectileDamage);
+            _target.TakeDamage(projectileDamage);
             projectileSpeed = 0;
             
             onProjectileHit.Invoke();
